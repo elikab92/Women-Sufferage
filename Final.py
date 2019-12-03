@@ -10,6 +10,9 @@ import os
 import sys
 
 result = None
+if (len(sys.argv) < 2):
+    print("Please pass one argument: 'before', or 'after'")
+    exit()
 fileName = "result-after1920.json" if sys.argv[1]=="after" else "result-before1920.json"
 if not os.path.isfile(fileName):
     #text = "hello world \n hello nice world \n hi world \n"
@@ -59,7 +62,9 @@ if not os.path.isfile(fileName):
         # Remove unknown and input tokens.
         return vocab.to_tokens(indices[1:])
 
-    print(get_knn(vocab, 20, 'woman'))
+    total_count = 20
+    print(get_knn(vocab, total_count, 'woman'))
+
 
 
     #Sentiment Analysis
@@ -76,6 +81,7 @@ else:
     with open(fileName) as json_file:
         result = json.load(json_file)
 
+total_count = 20
 pos=0
 neg=0
 neu=0
@@ -87,4 +93,8 @@ for item in result:
         neg+=1
     if r == "Neutral":
         neu+=1
-print(f'{sys.argv[1]} pos={pos}, neg={neg}, neu={neu}')
+pos_perc = pos/total_count * 100
+neg_perc = neg/total_count * 100
+neu_perc = neu/total_count * 100
+
+print(f'{sys.argv[1]} pos={pos_perc} %, neg={neg_perc} %, neu={neu_perc} %')
