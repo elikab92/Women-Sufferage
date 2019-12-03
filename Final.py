@@ -62,7 +62,7 @@ if not os.path.isfile(fileName):
         # Remove unknown and input tokens.
         return vocab.to_tokens(indices[1:])
 
-    total_count = 20
+    total_count = 100
     print(get_knn(vocab, total_count, 'woman'))
 
 
@@ -81,7 +81,7 @@ else:
     with open(fileName) as json_file:
         result = json.load(json_file)
 
-total_count = 20
+total_count = 100
 pos=0
 neg=0
 neu=0
