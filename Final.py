@@ -53,7 +53,7 @@ if not os.path.isfile(fileName):
         # Remove unknown and input tokens.
         return vocab.to_tokens(indices[1:])
 
-    total_count = 500
+    total_count = 200
     print(get_knn(vocab, total_count, 'woman'))
 
 
@@ -70,7 +70,7 @@ else:
     with open(fileName) as json_file:
         result = json.load(json_file)
 
-total_count = 500
+total_count = 200
 pos=0
 neg=0
 neu=0
@@ -85,5 +85,4 @@ for item in result:
 pos_perc = pos/total_count * 100
 neg_perc = neg/total_count * 100
 neu_perc = neu/total_count * 100
-
 print(f'{sys.argv[1]} pos={pos_perc} %, neg={neg_perc} %, neu={neu_perc} %')
