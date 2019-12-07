@@ -15,7 +15,6 @@ if (len(sys.argv) < 2):
     exit()
 fileName = "result-after1920.json" if sys.argv[1]=="after" else "result-before1920.json"
 if not os.path.isfile(fileName):
-    #text = "hello world \n hello nice world \n hi world \n"
     file = open('post-1920-books.txt' if sys.argv[1]=="after" else "before-1920-books.txt" ,'rt')
     text = file.read()
     file.close()
@@ -24,7 +23,6 @@ if not os.path.isfile(fileName):
         return filter(None, re.split(token_delim + '|' + seq_delim, source_str))
     counter = nlp.data.count_tokens(simple_tokenize(text))
     print(sorted(counter.items())[:10])
-    #print(counter[0:12])
 
     #create indices for each token
     vocab = nlp.Vocab(counter)
@@ -35,13 +33,6 @@ if not os.path.isfile(fileName):
     #Attach it to vocab
     vocab.set_embedding(fasttext_simple)
 
-    #Get weight for each vector
-    input_dim, output_dim = vocab.embedding.idx_to_vec.shape
-    layer = gluon.nn.Embedding(input_dim, output_dim)
-    layer.initialize()
-    layer.weight.set_data(vocab.embedding.idx_to_vec)
-
-    print(len(vocab))
 
     #Define cosine similarity
 
@@ -62,17 +53,15 @@ if not os.path.isfile(fileName):
         # Remove unknown and input tokens.
         return vocab.to_tokens(indices[1:])
 
-    total_count = 100
+    total_count = 500
     print(get_knn(vocab, total_count, 'woman'))
 
 
 
     #Sentiment Analysis
     ml = MonkeyLearn('174a0d96f0e699a4d58a39a440205802710768f5')
-    data = get_knn(vocab, 20, 'woman')
-        #['The restaurant was great!', 'The curtains were disgusting']
+    data = get_knn(vocab, total_count, 'woman')
     print(data)
-    #data = ['The restaurant was great!', 'The curtains were disgusting']
     model_id = 'cl_pi3C7JiL'
     result = ml.classifiers.classify(model_id, data).body
     with open(fileName, 'w') as json_file:
@@ -81,7 +70,7 @@ else:
     with open(fileName) as json_file:
         result = json.load(json_file)
 
-total_count = 100
+total_count = 500
 pos=0
 neg=0
 neu=0
